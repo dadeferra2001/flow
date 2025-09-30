@@ -4,6 +4,7 @@ import warnings
 from flow.core.kernel.simulation import TraCISimulation, AimsunKernelSimulation
 from flow.core.kernel.network import TraCIKernelNetwork, AimsunKernelNetwork
 from flow.core.kernel.vehicle import TraCIVehicle, AimsunKernelVehicle
+from flow.core.kernel.pedestrian import TraCIPedestrian
 from flow.core.kernel.traffic_light import TraCITrafficLight, \
     AimsunKernelTrafficLight
 from flow.utils.exceptions import FatalFlowError
@@ -66,11 +67,13 @@ class Kernel(object):
             self.simulation = TraCISimulation(self)
             self.network = TraCIKernelNetwork(self, sim_params)
             self.vehicle = TraCIVehicle(self, sim_params)
+            self.pedestrian = TraCIPedestrian(self, sim_params)
             self.traffic_light = TraCITrafficLight(self)
         elif simulator == 'aimsun':
             self.simulation = AimsunKernelSimulation(self)
             self.network = AimsunKernelNetwork(self, sim_params)
             self.vehicle = AimsunKernelVehicle(self, sim_params)
+            #self.pedestrian = AimsunKernelPedestrian(self, sim_params)
             self.traffic_light = AimsunKernelTrafficLight(self)
         else:
             raise FatalFlowError('Simulator type "{}" is not valid.'.
@@ -83,6 +86,7 @@ class Kernel(object):
         self.network.pass_api(kernel_api)
         self.vehicle.pass_api(kernel_api)
         self.traffic_light.pass_api(kernel_api)
+        self.pedestrian.pass_api(kernel_api)
 
     def update(self, reset):
         """Update the kernel subclasses after a simulation step.
@@ -102,6 +106,7 @@ class Kernel(object):
         self.traffic_light.update(reset)
         self.network.update(reset)
         self.simulation.update(reset)
+        self.pedestrian.update(reset) 
 
     def close(self):
         """Terminate all components within the simulation and network."""

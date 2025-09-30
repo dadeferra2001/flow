@@ -165,6 +165,7 @@ class Env(gym.Env, metaclass=ABCMeta):
 
         # initial the vehicles kernel using the VehicleParams object
         self.k.vehicle.initialize(deepcopy(self.network.vehicles))
+        self.k.pedestrian.initialize(deepcopy(self.network.pedestrians))
 
         # initialize the simulation using the simulation kernel. This will use
         # the network kernel as an input in order to determine what network
@@ -260,6 +261,7 @@ class Env(gym.Env, metaclass=ABCMeta):
 
         self.k.network.generate_network(self.network)
         self.k.vehicle.initialize(deepcopy(self.network.vehicles))
+        self.k.pedestrian.initialize(deepcopy(self.network.pedestrians))
         kernel_api = self.k.simulation.start_simulation(
             network=self.k.network, sim_params=self.sim_params)
         self.k.pass_api(kernel_api)

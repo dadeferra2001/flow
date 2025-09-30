@@ -1281,3 +1281,14 @@ class InFlows:
     def get(self):
         """Return the inflows of each edge."""
         return self.__flows
+
+class PedestrianParams:
+    """Used to add pedestrians to a network."""
+
+    def __init__(self):
+        """Instantiate PedestrianParams."""
+        self.__pedestrians = []
+
+    def add(self, pedestrian_id, pedestrian_type, pedestrian_route):
+        """Add a pedestrian to the network."""
+        self.__pedestrians.append(pedestrian_id)
